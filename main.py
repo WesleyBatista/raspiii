@@ -38,6 +38,12 @@ def get_metadata():
     return result
 
 
+def delete_file(filepath):
+    error, output = getstatusoutput(f'rm {filepath}')
+    if error:
+        raise OSError(error, output)
+
+
 def take_a_picture():
     filepath = f"/home/pi/camera_service/images/image_{datetime.utcnow().strftime('%Y%m%dT%H%M%S')}.jpg"
     command = f"raspistill --mode 0 -o {filepath} --nopreview --exposure sports --timeout 1"
@@ -68,6 +74,7 @@ def main():
     while True:
         filepath = take_a_picture()
         upload_aws(filepath)
+        delete_file(filepath)
 
 
 if __name__ == '__main__':
