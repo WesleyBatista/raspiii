@@ -1,0 +1,19 @@
+[Unit]
+Description=Raspiii
+Requires=network.target
+After=network.target
+
+[Service]
+User=pi
+WorkingDirectory=/home/pi/camera_service
+ExecStart=/home/pi/.pyenv/shims/python -u main.py
+Environment="AWS_ACCESS_KEY_ID=<AWS_ACCESS_KEY_ID>"
+Environment="AWS_SECRET_ACCESS_KEY=<AWS_SECRET_ACCESS_KEY>"
+Environment="AWS_S3_BUCKET=<AWS_S3_BUCKET>"
+
+
+Restart=always
+RestartSec=1
+
+[Install]
+WantedBy=multi-user.target
